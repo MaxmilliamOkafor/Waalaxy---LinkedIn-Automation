@@ -73,15 +73,15 @@ const StorageManager = {
       userLinkedIn: '',
       theme: 'dark',
       autoConnect: false,
-      maxDailyConnections: 80,
-      maxDailyMessages: 120,
-      maxDailyVisits: 150,
-      maxDailyFollows: 50,
-      maxDailyLikes: 100,
-      delayMin: 3,
-      delayMax: 8,
-      longPauseEvery: 15,
-      longPauseSeconds: 30
+      maxDailyConnections: 999999,
+      maxDailyMessages: 999999,
+      maxDailyVisits: 999999,
+      maxDailyFollows: 999999,
+      maxDailyLikes: 999999,
+      delayMin: 1,
+      delayMax: 3,
+      longPauseEvery: 999999,
+      longPauseSeconds: 0
     });
   },
 
