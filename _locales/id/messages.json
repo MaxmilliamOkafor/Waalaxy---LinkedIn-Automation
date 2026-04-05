@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - Alat Otomatisasi LinkedIn"
+    },
+    "appDesc": {
+        "message": "Jadikan LinkedIn sebagai saluran akuisisi nomor satu Anda dengan Waalaxy. Pencarian dan perekrutan otomatis menjadi mudah"
+    },
+    "end_of_queue": {
+        "message": "Tidak ada lagi tindakan dalam antrian",
+        "description": "Notification"
+    }
+}

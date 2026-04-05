@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - поиск в LinkedIn"
+    },
+    "appDesc": {
+        "message": "Сделайте LinkedIn своим каналом привлечения N°1 с помощью Waalaxy. Автоматизированный поиск и подбор персонала"
+    },
+    "end_of_queue": {
+        "message": "Больше никаких действий в очереди",
+        "description": "Notification"
+    }
+}

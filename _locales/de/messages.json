@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - LinkedIn B2B-Lead-Generierung"
+    },
+    "appDesc": {
+        "message": "Machen Sie LinkedIn mit Waalaxy zu Ihrem Nr. 1 Akquisekanal. Automatisierte Akquise leicht gemacht"
+    },
+    "end_of_queue": {
+        "message": "Keine Aktion mehr in der Warteschlange",
+        "description": "Notification"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - Mejor Solución de Automatización LinkedIn"
+    },
+    "appDesc": {
+        "message": "Convierta LinkedIn en su canal de captación nº1 con Waalaxy. Prospección y captación automatizadas más fáciles"
+    },
+    "end_of_queue": {
+        "message": "No más acción en la cola",
+        "description": "Notification"
+    }
+}

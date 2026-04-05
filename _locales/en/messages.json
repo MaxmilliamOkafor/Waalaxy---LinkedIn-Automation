@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - LinkedIn Automation Tool"
+    },
+    "appDesc": {
+        "message": "Make LinkedIn your No. 1 acquisition channel with Waalaxy. Automated prospecting and recruitment made easy"
+    },
+    "end_of_queue": {
+        "message": "No more action in queue",
+        "description": "Notification"
+    }
+}

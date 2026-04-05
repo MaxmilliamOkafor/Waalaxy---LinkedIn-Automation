@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - Outil de Prospection LinkedIn"
+    },
+    "appDesc": {
+        "message": "Faites de LinkedIn votre canal d'acquisition N°1 grâce à Waalaxy. La prospection et le recrutement automatisés en toute simplicité"
+    },
+    "end_of_queue": {
+        "message": "Plus d'actions dans la file d'attente",
+        "description": "Notification"
+    }
+}

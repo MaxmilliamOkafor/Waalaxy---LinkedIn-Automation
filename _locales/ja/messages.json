@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - LinkedInオートメーションツール"
+    },
+    "appDesc": {
+        "message": "WaalaxyでLinkedInを第一の獲得チャネルに。自動化された営業と採用のプロスペクティングが、ついに簡単にできるようになりました。"
+    },
+    "end_of_queue": {
+        "message": "キューにこれ以上のアクション",
+        "description": "Notification"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - Ferramenta de automação LinkedIn"
+    },
+    "appDesc": {
+        "message": "Faça do LinkedIn seu canal de aquisição nº 1 com o Waalaxy. Prospecção e recrutamento automatizados facilitados"
+    },
+    "end_of_queue": {
+        "message": "Não há mais ação na fila",
+        "description": "Notification"
+    }
+}

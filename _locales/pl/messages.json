@@ -1,0 +1,12 @@
+{
+    "appName": {
+        "message": "Waalaxy - LinkedIn Automation Tool"
+    },
+    "appDesc": {
+        "message": "Uczyń LinkedIn swoim kanałem pozyskiwania nr 1 dzięki Waalaxy. Zautomatyzowany prospecting stał się łatwy"
+    },
+    "end_of_queue": {
+        "message": "Koniec akcji w kolejce",
+        "description": "Notification"
+    }
+}
