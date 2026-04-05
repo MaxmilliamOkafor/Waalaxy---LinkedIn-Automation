@@ -729,28 +729,12 @@
     // Load settings into fields
     populateSettings();
 
-    // Range sliders
-    ['set-max-connections', 'set-max-messages', 'set-max-visits'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('input', () => {
-          const lblId = id.replace('set-max-', 'lbl-');
-          document.getElementById(lblId).textContent = el.value;
-        });
-      }
-    });
-
-    document.getElementById('set-delay-min')?.addEventListener('input', updateDelayLabel);
-    document.getElementById('set-delay-max')?.addEventListener('input', updateDelayLabel);
-
     // Save
     document.getElementById('btn-save-settings')?.addEventListener('click', saveSettings);
   }
 
   function updateDelayLabel() {
-    const min = document.getElementById('set-delay-min').value;
-    const max = document.getElementById('set-delay-max').value;
-    document.getElementById('lbl-delay').textContent = `${min}-${max}`;
+    // No-op — limits removed
   }
 
   function populateSettings() {
@@ -764,16 +748,7 @@
     document.getElementById('set-model').value = settings.aiModel || 'gpt-4o-mini';
     document.getElementById('set-tone').value = settings.defaultTone || 'professional';
     document.getElementById('set-email-service').value = settings.defaultEmailService || 'gmail';
-    document.getElementById('set-max-connections').value = settings.maxDailyConnections || 80;
-    document.getElementById('set-max-messages').value = settings.maxDailyMessages || 120;
-    document.getElementById('set-max-visits').value = settings.maxDailyVisits || 150;
-    document.getElementById('set-delay-min').value = settings.delayMin || 3;
-    document.getElementById('set-delay-max').value = settings.delayMax || 8;
-
-    document.getElementById('lbl-connections').textContent = settings.maxDailyConnections || 80;
-    document.getElementById('lbl-messages').textContent = settings.maxDailyMessages || 120;
-    document.getElementById('lbl-visits').textContent = settings.maxDailyVisits || 150;
-    updateDelayLabel();
+    // Limits removed — unlimited usage
   }
 
   async function saveSettings() {
@@ -788,11 +763,11 @@
       aiModel: document.getElementById('set-model').value,
       defaultTone: document.getElementById('set-tone').value,
       defaultEmailService: document.getElementById('set-email-service').value,
-      maxDailyConnections: parseInt(document.getElementById('set-max-connections').value),
-      maxDailyMessages: parseInt(document.getElementById('set-max-messages').value),
-      maxDailyVisits: parseInt(document.getElementById('set-max-visits').value),
-      delayMin: parseInt(document.getElementById('set-delay-min').value),
-      delayMax: parseInt(document.getElementById('set-delay-max').value)
+      maxDailyConnections: 999999,
+      maxDailyMessages: 999999,
+      maxDailyVisits: 999999,
+      delayMin: 1,
+      delayMax: 3
     };
 
     settings = await msg('UPDATE_SETTINGS', updates);

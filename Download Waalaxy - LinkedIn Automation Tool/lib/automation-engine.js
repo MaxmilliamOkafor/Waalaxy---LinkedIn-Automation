@@ -1,7 +1,7 @@
 /**
  * Waalaxy LinkedIn Automation Tool — Automation Engine
- * Priority queue with human-like delays, daily counters, and configurable limits.
- * Zero artificial limitations — all limits are safety measures.
+ * Priority queue with human-like delays and daily counters.
+ * Unlimited usage — no daily caps or restrictions.
  */
 
 const AutomationEngine = {
@@ -112,18 +112,8 @@ const AutomationEngine = {
 
       const action = this._queue[0];
 
-      // Check daily limits
-      if (!this._checkLimit(action.type)) {
-        console.log(`[WX] Daily limit reached for ${action.type}, skipping`);
-        this._queue.shift();
-        action.status = 'limit_reached';
-        this._emit('action_skipped', action);
-        continue;
-      }
-
-      // Human-like delay
-      const limits = await this._getLimits();
-      const delayMs = (limits.delayMin + Math.random() * (limits.delayMax - limits.delayMin)) * 1000;
+      // Minimal delay between actions
+      const delayMs = (1 + Math.random() * 2) * 1000;
       await new Promise(r => setTimeout(r, delayMs));
 
       if (!this._running || this._paused) break;
@@ -170,12 +160,6 @@ const AutomationEngine = {
 
       await this._saveQueue();
 
-      // Long pause every N actions
-      if (this._actionCount > 0 && this._actionCount % (limits.longPauseEvery || 15) === 0) {
-        console.log('[WX] Taking a long pause...');
-        this._emit('long_pause');
-        await new Promise(r => setTimeout(r, (limits.longPauseSeconds || 30) * 1000));
-      }
     }
 
     this._processing = false;
@@ -189,22 +173,8 @@ const AutomationEngine = {
   // ─── Daily Counters ──────────────────────────
 
   _checkLimit(actionType) {
-    const limits = this._limits || {};
-    const typeMap = {
-      'connect': { counter: 'connections', limit: limits.maxDailyConnections || 80 },
-      'message': { counter: 'messages', limit: limits.maxDailyMessages || 120 },
-      'visit': { counter: 'visits', limit: limits.maxDailyVisits || 150 },
-      'view': { counter: 'visits', limit: limits.maxDailyVisits || 150 },
-      'follow': { counter: 'follows', limit: limits.maxDailyFollows || 50 },
-      'like': { counter: 'likes', limit: limits.maxDailyLikes || 100 },
-      'endorse': { counter: 'endorsements', limit: 50 },
-      'comment': { counter: 'comments', limit: 50 }
-    };
-
-    const mapping = typeMap[actionType];
-    if (!mapping) return true;
-
-    return (this._dailyCounters[mapping.counter] || 0) < mapping.limit;
+    // Unlimited usage — no daily caps
+    return true;
   },
 
   async _incrementCounter(actionType) {
@@ -249,34 +219,23 @@ const AutomationEngine = {
   // ─── Limits ──────────────────────────────────
 
   async _getLimits() {
-    return new Promise(resolve => {
-      chrome.storage.local.get('wx_settings', result => {
-        const s = result.wx_settings || {};
-        resolve({
-          maxDailyConnections: s.maxDailyConnections || 80,
-          maxDailyMessages: s.maxDailyMessages || 120,
-          maxDailyVisits: s.maxDailyVisits || 150,
-          maxDailyFollows: s.maxDailyFollows || 50,
-          maxDailyLikes: s.maxDailyLikes || 100,
-          delayMin: s.delayMin || 3,
-          delayMax: s.delayMax || 8,
-          longPauseEvery: s.longPauseEvery || 15,
-          longPauseSeconds: s.longPauseSeconds || 30
-        });
-      });
-    });
+    // Unlimited — no caps enforced
+    return {
+      maxDailyConnections: Infinity,
+      maxDailyMessages: Infinity,
+      maxDailyVisits: Infinity,
+      maxDailyFollows: Infinity,
+      maxDailyLikes: Infinity,
+      delayMin: 1,
+      delayMax: 3,
+      longPauseEvery: Infinity,
+      longPauseSeconds: 0
+    };
   },
 
   async updateLimits(newLimits) {
-    return new Promise(resolve => {
-      chrome.storage.local.get('wx_settings', result => {
-        const settings = { ...(result.wx_settings || {}), ...newLimits };
-        chrome.storage.local.set({ wx_settings: settings }, () => {
-          this._limits = newLimits;
-          resolve(settings);
-        });
-      });
-    });
+    // No-op — limits are removed
+    return {};
   },
 
   // ─── Queue Persistence ───────────────────────

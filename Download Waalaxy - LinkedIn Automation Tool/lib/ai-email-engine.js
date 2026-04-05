@@ -368,10 +368,7 @@ Key rules:
 
       if (!message) throw new Error('Empty AI response');
 
-      // Enforce limits
-      if (type === 'connection_note' && message.length > 300) {
-        message = message.substring(0, 297) + '...';
-      }
+      // No message length limits enforced
 
       return {
         success: true,
@@ -478,10 +475,7 @@ Key rules:
     // Clean empty lines
     body = body.replace(/\n{3,}/g, '\n\n').trim();
 
-    // Enforce limits for LinkedIn types
-    if (type === 'connection_note' && body.length > 300) {
-      body = body.substring(0, 297) + '...';
-    }
+    // No message length limits enforced
 
     return {
       success: true,

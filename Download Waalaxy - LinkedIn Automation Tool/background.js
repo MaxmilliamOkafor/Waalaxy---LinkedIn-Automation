@@ -59,15 +59,15 @@ chrome.runtime.onInstalled.addListener(() => {
           userPhone: '',
           userLinkedIn: '',
           theme: 'dark',
-          maxDailyConnections: 80,
-          maxDailyMessages: 120,
-          maxDailyVisits: 150,
-          maxDailyFollows: 50,
-          maxDailyLikes: 100,
-          delayMin: 3,
-          delayMax: 8,
-          longPauseEvery: 15,
-          longPauseSeconds: 30
+          maxDailyConnections: 999999,
+          maxDailyMessages: 999999,
+          maxDailyVisits: 999999,
+          maxDailyFollows: 999999,
+          maxDailyLikes: 999999,
+          delayMin: 1,
+          delayMax: 3,
+          longPauseEvery: 999999,
+          longPauseSeconds: 0
         }
       });
     }
@@ -77,20 +77,9 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // ─── Alarms ────────────────────────────────────
-chrome.alarms.create('wx-daily-reset', { periodInMinutes: 60 });
 chrome.alarms.create('wx-sequence-check', { periodInMinutes: 5 });
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
-  if (alarm.name === 'wx-daily-reset') {
-    const counters = await new Promise(r =>
-      chrome.storage.local.get('wx_daily_counters', r2 => r(r2.wx_daily_counters || {}))
-    );
-    const today = new Date().toISOString().split('T')[0];
-    if (counters.date !== today) {
-      chrome.storage.local.set({ wx_daily_counters: { date: today } });
-    }
-  }
-
   if (alarm.name === 'wx-sequence-check') {
     await processScheduledActions();
   }
