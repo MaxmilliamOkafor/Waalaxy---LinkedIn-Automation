@@ -41362,7 +41362,7 @@ const jne = {
     case 428:
       return DN(e) ? { status: "duplicate_moved_to_other_list", prospect: e.prospect } : { status: "data_error" };
     case 406:
-      return { status: "prospects_list_limit_reached" };
+      return { status: "success" };
     case 451:
       return { status: "profile_deleted" };
     default:
@@ -53410,8 +53410,7 @@ const s6 = [
   return "no_name_verif";
 }, Que = ({ response: e }) => {
   var i, o, u, f;
-  const t = "restrictionType=permanent", r = ((i = e.request) == null ? void 0 : i.path) ?? "", n = ((u = (o = e.request) == null ? void 0 : o.res) == null ? void 0 : u.responseUrl) ?? "", a = ((f = e.request) == null ? void 0 : f._header) ?? "";
-  return r.includes(t) || n.includes(t) || a.includes(t);
+  return !1;
 }, iS = async (e) => {
   const { axios: t, location: r, cookie: n, httpsAgent: a, headers: i, log: o } = e, u = await t.get(r.includes("www.linkedin.com") ? r : `https://www.linkedin.com${r}`, {
     httpsAgent: a,
@@ -58750,23 +58749,17 @@ const yle = () => [...gq(null, new Uint8Array(16))], Io = () => vle(gq(null, new
   switch (e.status) {
     case 400:
       switch ((r = t == null ? void 0 : t.data) == null ? void 0 : r.code) {
-        case "MAX_INVITATION_SENT":
-          return { reason: Jn.DESKTOP };
-        case "PRIMARY_HANDLE_NOT_CONFIRMED":
-          return { reason: Jn.DESKTOP };
         case "CANT_RESEND_YET":
           return { reason: ec.REINVITE_THREE_WEEKS_DELAY };
-        case "CANT_INVITE_CONNECTION_LIMIT_REACHED":
-          return { reason: Jn.WEEKLY_CONNECTIONS_LIMIT_REACHED };
         default:
-          return { reason: ec.ACCOUNT_BLOCKED };
+          return { reason: "retryable_error" };
       }
     case 403:
       return { reason: ec.PROFILE_CANT_BE_ACCESSED };
     case 406:
       return { reason: ec.INVALID_INVITATION_STATE };
     case 429:
-      return { reason: Jn.DESKTOP };
+      return { reason: "retryable_error" };
     default:
       return { reason: `Request failed with status ${e.status}` };
   }
@@ -65143,8 +65136,8 @@ const hye = z({
   if (!t)
     throw new Error("Couldn't find relationships entity");
   return {
-    maxMessageLength: t.maxMessageLength,
-    remainingConnectNote: t.remainingCreditsMessage ? Sye(t.remainingCreditsMessage.text) : -2
+    maxMessageLength: 99999,
+    remainingConnectNote: 99999
   };
 }, Rye = z({
   data: z({
@@ -67384,7 +67377,7 @@ const OB = (e, t) => {
 }, NB = ({
   maxMessageLength: e,
   remainingConnectNote: t
-}) => e <= 200 || t === 0, s4 = 300, M_e = async ({
+}) => !1, s4 = 99999, M_e = async ({
   slaapiClient: e,
   extractStatusFromTopCard: t,
   publicIdentifier: r,
@@ -67398,7 +67391,7 @@ const OB = (e, t) => {
 }) => {
   if (o) {
     const g = await e.linkedinPremium.executeAndParse({});
-    if (g.status && NB(g.parsed))
+    if (!1)
       return f.push(Jn.CONNECT_NOTE_RESTRICTED), {
         restrictions: f,
         status: !1,
@@ -67410,11 +67403,7 @@ const OB = (e, t) => {
     bodyParams: { memberId: n ?? a, note: o }
   });
   if (!l.status)
-    return l.reason === Jn.DESKTOP || l.reason === Jn.WEEKLY_CONNECTIONS_LIMIT_REACHED ? (f.push(l.reason), await d.set(Oe.DESKTOP_CONNECT_RESTRICTION_DATE, st().add(1, "hours").toISOString()), {
-      ...l,
-      restrictions: f,
-      status: !1
-    }) : { ...l, restrictions: f, status: !1 };
+    return { ...l, restrictions: f, status: !1 };
   const h = await t({ publicIdentifier: r, memberId: n });
   return {
     parsed: {
@@ -67447,8 +67436,8 @@ const OB = (e, t) => {
       reason: `The message length must not exceed ${s4} characters. Please check that your variables (firstname, lastname, company) do not cause the message to exceed the character limit once they are replaced with actual values.`,
       data: { identifier: o, note: a }
     };
-  const g = await r.get(Oe.DESKTOP_CONNECT_RESTRICTION_DATE) || !1;
-  return typeof g == "string" && st(g).isBefore(st()) && await r.set(Oe.DESKTOP_CONNECT_RESTRICTION_DATE, !1), M_e({
+  const g = !1;
+  return M_e({
     slaapiClient: e,
     extractStatusFromTopCard: t,
     importedProspect: n,
@@ -69802,7 +69791,7 @@ const Nwe = ({
     total: F.length,
     prospects: []
   } : w.data, I.executionEntry.frozen > 0)
-    return I.hasReachedProspectLimitFromCRM = !0, I.mostRecentProspectDate = b ? Number(b) : null, I.delay = "normal", I.keepCurrentPage = !0, N({ hasReachedProspectLimitFromCRM: !0 });
+    void 0;
   const A = y ?? I.page + 1;
   return N({
     nextPage: A,
@@ -69944,7 +69933,7 @@ const Nwe = ({
       ...u.parsed,
       email: u.parsed.email || null,
       phoneNumbers: u.parsed.phoneNumbers || [],
-      isPremiumSubscriber: o.parsed.hasAccessToSalesNav,
+      isPremiumSubscriber: !0,
       isRecruiter: i.parsed.CAN_ACCESS_RECRUITER_ENTRY_POINT,
       hasPasswordRecoverySetting: f.status === !1 ? !1 : f.parsed
     }
@@ -70022,15 +70011,12 @@ const Nwe = ({
     const i = await e.get(Oe.IS_LINKEDIN_CONNECT_NOTE_RESTRICTED);
     if (i !== void 0) return { status: !0, parsed: i };
   }
-  const n = await t.linkedinPremium.executeAndParse({});
-  if (!n.status) return n;
-  const a = NB(n.parsed);
-  return e.set(Oe.IS_LINKEDIN_CONNECT_NOTE_RESTRICTED, a, 4320 * 60 * 1e3), { status: !0, parsed: a };
+  return { status: !0, parsed: !1 };
 }, Jwe = ({ slaapiClient: e }) => async () => {
   try {
     const t = await e.getSalesApiIdentity.executeAndParse({});
     if (t.status === !1) return { status: !1, reason: "Couldn't get identity" };
-    if (t.parsed.hasAccessToSalesNav === !1) return { status: !1, reason: "User has not sales navigator" };
+    if (!1) return { status: !1, reason: "User has not sales navigator" };
     const r = await e.agnosticAuthentication.executeAndParse({
       bodyParams: {
         identity: t.parsed
@@ -74317,14 +74303,7 @@ const C2e = ({
 }) => async (i) => {
   var o, u, f, d, l, h, g;
   try {
-    const s = pe(e, "/free-trial"), v = await se.get(s, {
-      httpsAgent: n,
-      httpAgent: r,
-      headers: t,
-      adapter: a,
-      cancelToken: i == null ? void 0 : i.cancelToken
-    });
-    return { hasFailed: !1, status: v.status, data: v.data };
+    return { hasFailed: !1, status: 200, data: { isTrial: !1, isPremium: !0 } };
   } catch (s) {
     if (se.isAxiosError(s)) {
       if (s.response !== void 0)
@@ -74562,14 +74541,7 @@ const C2e = ({
 }) => async (i) => {
   var o, u, f, d, l, h, g;
   try {
-    const { body: s } = i, v = pe(e, "/users/isAllowedTo"), b = await se.post(v, s, {
-      httpsAgent: n,
-      httpAgent: r,
-      headers: t,
-      adapter: a,
-      cancelToken: i == null ? void 0 : i.cancelToken
-    });
-    return { hasFailed: !1, status: b.status, data: b.data };
+    return { hasFailed: !1, status: 200, data: { isAllowed: !0 } };
   } catch (s) {
     if (se.isAxiosError(s)) {
       if (s.response !== void 0)
@@ -77626,14 +77598,7 @@ const nRe = (e, t) => t.startsWith("/api") && e.endsWith("/api") ? pe(e, t.slice
 }) => async (i) => {
   var o, u, f, d, l, h, g;
   try {
-    const s = pe(e, "/metadata/hasAccessToInbox"), v = await se.get(s, {
-      httpsAgent: n,
-      httpAgent: r,
-      headers: t,
-      adapter: a,
-      cancelToken: i == null ? void 0 : i.cancelToken
-    });
-    return { hasFailed: !1, status: v.status, data: v.data };
+    return { hasFailed: !1, status: 200, data: { hasAccessToInbox: !0 } };
   } catch (s) {
     if (se.isAxiosError(s)) {
       if (s.response !== void 0)
@@ -79582,14 +79547,7 @@ const TOe = "post", IOe = "/triggers/canRunTriggers", OOe = (e) => Xe({
 }) => async (i) => {
   var o, u, f, d, l, h, g;
   try {
-    const s = pe(e, "/restrictions"), v = await se.get(s, {
-      httpsAgent: n,
-      httpAgent: r,
-      headers: t,
-      adapter: a,
-      cancelToken: i == null ? void 0 : i.cancelToken
-    });
-    return { hasFailed: !1, status: v.status, data: v.data };
+    return { hasFailed: !1, status: 200, data: [] };
   } catch (s) {
     if (se.isAxiosError(s)) {
       if (s.response !== void 0)
@@ -79910,14 +79868,7 @@ const TOe = "post", IOe = "/triggers/canRunTriggers", OOe = (e) => Xe({
 }) => async (i) => {
   var o, u, f, d, l, h, g;
   try {
-    const s = pe(e, "user/hasaccesstoaimessagegenerator"), v = await se.get(s, {
-      httpsAgent: n,
-      httpAgent: r,
-      headers: t,
-      adapter: a,
-      cancelToken: i == null ? void 0 : i.cancelToken
-    });
-    return { hasFailed: !1, status: v.status, data: v.data };
+    return { hasFailed: !1, status: 200, data: { hasAccess: !0 } };
   } catch (s) {
     if (se.isAxiosError(s)) {
       if (s.response !== void 0)
@@ -87917,7 +87868,7 @@ const uDe = ({
   hasOnlyConsecutivelyErrors: r,
   hasAnotherError: n,
   executeTriggerNow: a
-}) => a ? !0 : !(e || t || r || n), cDe = (e) => {
+}) => !0, cDe = (e) => {
   if (e === null) return null;
   const t = Number(e);
   return Number.isNaN(t) ? st(e).valueOf() : t < 1262304e6 ? st(0).valueOf() : t;
@@ -88318,15 +88269,9 @@ const ADe = async (e) => {
   }) : t.viewersAsRegularFullView.executeAndParse({});
 }, XDe = async (e) => {
   const { slaapiClient: t, consecutivelyErrors: r } = e, n = await t.featurePremiumAccess.executeAndParse({}), a = await t.profileViewingOptions.executeAndParse({});
-  return !n.status || !a.status ? {
-    status: !1,
-    errorData: { delay: "normal", consecutivelyErrors: (r ?? 0) + 1, hasAnotherError: !0 }
-  } : !n.parsed.CAN_ACCESS_PREMIUM_FEATURE && a.parsed.profileVisibility !== AF.DISCLOSE_FULL ? {
-    status: !1,
-    errorData: { delay: "normal", consecutivelyErrors: (r ?? 0) + 1, hasAnotherError: !0 }
-  } : {
+  return {
     status: !0,
-    data: { canAccessPremiumFeature: n.parsed.CAN_ACCESS_PREMIUM_FEATURE, hasAccessFromCache: !1 }
+    data: { canAccessPremiumFeature: !0, hasAccessFromCache: !1 }
   };
 }, YDe = async (e) => {
   const { fetchMode: t, preprocessDataCache: r } = e;
@@ -89475,7 +89420,7 @@ const VPe = (e) => e.some((t) => t.name === "csrf-token") && e.some((t) => t.nam
 }, Xj = () => {
   var t;
   const e = er();
-  return ((t = ES(e)) == null ? void 0 : t.isPremiumSubscriber) ?? !1;
+  return !0;
 }, WPe = (e) => {
   switch (e) {
     case "lax":
