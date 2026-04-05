@@ -1,0 +1,26 @@
+{
+    "name": "mew",
+    "version": "1.0.0",
+    "description": "Waalaxy extension",
+    "sideEffects": false,
+    "scripts": {
+        "test": "vitest run --config ./vitest.config.ts --exclude 'src/**/background.test.ts'",
+        "playwright": "vitest run --config ./vitest.config.ts src/background/__tests__/background.test.ts",
+        "clean": "rm -rf ../../dist/apps/mew/mew-built/build/_locales ../../dist/apps/mew/mew-built/build/assets ../../dist/apps/mew/mew-built/build/background.html ../../dist/apps/mew/mew-built/build/background.js ../../dist/apps/mew/mew-built/build/contentScript.js ../../dist/apps/mew/mew-built/build/inject.js ../../dist/apps/mew/mew-built/build/manifest.json ../../dist/apps/mew/mew-built/build/style.css",
+        "build": "concurrently -s \"all\" -n \"Extension,ContentScript,Popup,Inject\" -p \"[{name}]\" -c \"blue,yellow,magenta\" \"vite build --config ./vite.config.ts\" \"vite build --config ./vite.config-content.ts\" \"vite build --config ./vite.config-popup.ts\" \"vite build --config ./vite.config-inject.ts\"",
+        "build:content-script": "vite build --config vite.config-content.ts",
+        "checkTs": "tsc --noEmit -p tsconfig.app.json",
+        "checkTs:test": "tsc --noEmit -p tsconfig.spec.json",
+        "checkTs:all": "concurrently -s all -n \"Mew App,Mew Tests\" -c \"blue,yellow\" -p \"[{name}]\" \"npm run checkTs\" \"npm run checkTs:test\"",
+        "lint": "eslint --ext js,ts,tsx src --quiet",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "externalDependencies": {
+        "redis": false,
+        "mongodb": false
+    }
+}
