@@ -1,0 +1,71 @@
+{
+  "manifest_version": 3,
+  "name": "Waalaxy - LinkedIn Automation Tool",
+  "short_name": "Waalaxy",
+  "description": "Unlimited LinkedIn automation — AI-powered outreach, contact discovery, multi-step campaigns, CRM pipeline, recruiter quick-contact, and email drafting. Zero limitations.",
+  "version": "3.0.0",
+  "minimum_chrome_version": "116",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "action": {
+    "default_title": "Waalaxy - LinkedIn Automation",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+
+  "side_panel": {
+    "default_path": "sidebar.html"
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "sidePanel",
+    "scripting",
+    "contextMenus",
+    "alarms",
+    "notifications"
+  ],
+
+  "host_permissions": [
+    "https://*.linkedin.com/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["https://*.linkedin.com/*"],
+      "js": [
+        "lib/utils.js",
+        "lib/profile-scraper.js",
+        "lib/contact-finder.js",
+        "lib/email-composer.js",
+        "lib/linkedin-actions.js",
+        "content.js"
+      ],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["sidebar.html", "icons/*", "lib/*"],
+      "matches": ["https://*.linkedin.com/*"]
+    }
+  ]
+}

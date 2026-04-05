@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waalaxy - LinkedIn Automation</title>
+  <link rel="stylesheet" href="sidebar.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wx-sidebar" id="wx-sidebar">
+
+    <!-- ═══ TOP BAR ═══ -->
+    <div class="wx-topbar">
+      <div class="wx-topbar-brand">
+        <span class="wx-logo">🚀</span>
+        <span class="wx-brand-name">Waalaxy</span>
+        <span class="wx-version">v3.0</span>
+      </div>
+      <div class="wx-topbar-actions">
+        <button class="wx-topbar-btn" id="btn-settings" title="Settings">⚙️</button>
+        <button class="wx-topbar-btn" id="btn-refresh" title="Refresh">🔄</button>
+      </div>
+    </div>
+
+    <!-- ═══ TAB BAR ═══ -->
+    <div class="wx-tabs">
+      <button class="wx-tab wx-tab-active" data-tab="dashboard" id="tab-dashboard">
+        <span class="wx-tab-icon">📊</span><span class="wx-tab-label">Dashboard</span>
+      </button>
+      <button class="wx-tab" data-tab="campaigns" id="tab-campaigns">
+        <span class="wx-tab-icon">📢</span><span class="wx-tab-label">Campaigns</span>
+      </button>
+      <button class="wx-tab" data-tab="pipeline" id="tab-pipeline">
+        <span class="wx-tab-icon">📋</span><span class="wx-tab-label">Pipeline</span>
+      </button>
+      <button class="wx-tab" data-tab="contacts" id="tab-contacts">
+        <span class="wx-tab-icon">👥</span><span class="wx-tab-label">Contacts</span>
+      </button>
+      <button class="wx-tab" data-tab="outreach" id="tab-outreach">
+        <span class="wx-tab-icon">💬</span><span class="wx-tab-label">Outreach</span>
+      </button>
+      <button class="wx-tab" data-tab="email" id="tab-email">
+        <span class="wx-tab-icon">📧</span><span class="wx-tab-label">Email</span>
+      </button>
+    </div>
+
+    <!-- ═══ TAB CONTENT ═══ -->
+    <div class="wx-content">
+
+      <!-- ─── Dashboard Tab ─── -->
+      <div class="wx-panel wx-panel-active" id="panel-dashboard">
+        <!-- Profile Card -->
+        <div class="wx-profile-card" id="profile-card" style="display:none">
+          <div class="wx-pc-header">
+            <img class="wx-pc-avatar" id="pc-avatar" src="" alt="">
+            <div class="wx-pc-info">
+              <div class="wx-pc-name" id="pc-name"></div>
+              <div class="wx-pc-title" id="pc-title"></div>
+              <div class="wx-pc-company" id="pc-company"></div>
+            </div>
+          </div>
+          <div class="wx-pc-badges" id="pc-badges"></div>
+          <div class="wx-pc-actions">
+            <button class="wx-btn wx-btn-sm wx-btn-primary" id="btn-save-lead">💾 Save Lead</button>
+            <button class="wx-btn wx-btn-sm wx-btn-ghost" id="btn-draft-msg">✉️ Draft</button>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="wx-stats-grid">
+          <div class="wx-stat-card wx-stat-purple">
+            <div class="wx-stat-value" id="stat-leads">0</div>
+            <div class="wx-stat-label">Leads Saved</div>
+          </div>
+          <div class="wx-stat-card wx-stat-blue">
+            <div class="wx-stat-value" id="stat-campaigns">0</div>
+            <div class="wx-stat-label">Active Campaigns</div>
+          </div>
+          <div class="wx-stat-card wx-stat-green">
+            <div class="wx-stat-value" id="stat-sent">0</div>
+            <div class="wx-stat-label">Messages Sent</div>
+          </div>
+          <div class="wx-stat-card wx-stat-amber">
+            <div class="wx-stat-value" id="stat-response">0%</div>
+            <div class="wx-stat-label">Response Rate</div>
+          </div>
+        </div>
+
+        <!-- Daily Counters -->
+        <div class="wx-section">
+          <div class="wx-section-title">📈 Today's Activity</div>
+          <div class="wx-daily-counters" id="daily-counters">
+            <div class="wx-counter"><span class="wx-counter-val" id="cnt-connections">0</span><span class="wx-counter-lbl">Connects</span></div>
+            <div class="wx-counter"><span class="wx-counter-val" id="cnt-messages">0</span><span class="wx-counter-lbl">Messages</span></div>
+            <div class="wx-counter"><span class="wx-counter-val" id="cnt-visits">0</span><span class="wx-counter-lbl">Visits</span></div>
+            <div class="wx-counter"><span class="wx-counter-val" id="cnt-emails">0</span><span class="wx-counter-lbl">Emails</span></div>
+          </div>
+        </div>
+
+        <!-- Automation Status -->
+        <div class="wx-section">
+          <div class="wx-section-title">⚡ Automation</div>
+          <div class="wx-auto-status" id="auto-status">
+            <div class="wx-auto-indicator">
+              <span class="wx-auto-dot" id="auto-dot"></span>
+              <span class="wx-auto-text" id="auto-text">Idle</span>
+              <span class="wx-auto-queue" id="auto-queue">Queue: 0</span>
+            </div>
+            <div class="wx-auto-controls">
+              <button class="wx-btn wx-btn-xs wx-btn-primary" id="btn-auto-start">▶ Start</button>
+              <button class="wx-btn wx-btn-xs wx-btn-ghost" id="btn-auto-pause">⏸ Pause</button>
+              <button class="wx-btn wx-btn-xs wx-btn-danger" id="btn-auto-stop">⏹ Stop</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="wx-section">
+          <div class="wx-section-title">🕐 Recent Activity</div>
+          <div class="wx-activity-feed" id="activity-feed">
+            <div class="wx-empty-state">No recent activity</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Campaigns Tab ─── -->
+      <div class="wx-panel" id="panel-campaigns">
+        <div class="wx-panel-header">
+          <h2 class="wx-panel-title">Campaigns</h2>
+          <button class="wx-btn wx-btn-sm wx-btn-primary" id="btn-new-campaign">+ New Campaign</button>
+        </div>
+
+        <!-- Campaign List -->
+        <div class="wx-campaign-list" id="campaign-list">
+          <div class="wx-empty-state">No campaigns yet. Create your first!</div>
+        </div>
+
+        <!-- Campaign Wizard (hidden by default) -->
+        <div class="wx-wizard" id="campaign-wizard" style="display:none">
+          <div class="wx-wizard-steps">
+            <div class="wx-wizard-step wx-ws-active" data-step="1">1. Name</div>
+            <div class="wx-wizard-step" data-step="2">2. Sequence</div>
+            <div class="wx-wizard-step" data-step="3">3. Leads</div>
+          </div>
+
+          <!-- Step 1: Name -->
+          <div class="wx-wizard-panel wx-wp-active" id="wizard-step-1">
+            <label class="wx-label">Campaign Name</label>
+            <input class="wx-input" id="wizard-name" placeholder="e.g., Q2 Recruiter Outreach" maxlength="100">
+            <label class="wx-label" style="margin-top:12px">Description (optional)</label>
+            <textarea class="wx-textarea" id="wizard-desc" rows="2" placeholder="Brief description..."></textarea>
+            <button class="wx-btn wx-btn-primary wx-btn-full" id="wizard-next-1" style="margin-top:16px">Next →</button>
+          </div>
+
+          <!-- Step 2: Sequence -->
+          <div class="wx-wizard-panel" id="wizard-step-2">
+            <label class="wx-label">Select Sequence Template</label>
+            <div class="wx-sequence-grid" id="sequence-grid"></div>
+            <button class="wx-btn wx-btn-primary wx-btn-full" id="wizard-next-2" style="margin-top:12px">Next →</button>
+            <button class="wx-btn wx-btn-ghost wx-btn-full" id="wizard-back-2">← Back</button>
+          </div>
+
+          <!-- Step 3: Leads -->
+          <div class="wx-wizard-panel" id="wizard-step-3">
+            <label class="wx-label">Add Leads</label>
+            <div class="wx-lead-import-options">
+              <button class="wx-btn wx-btn-ghost wx-btn-full" id="wizard-import-csv">📄 Import CSV</button>
+              <button class="wx-btn wx-btn-ghost wx-btn-full" id="wizard-import-search">🔍 Import from Search</button>
+              <button class="wx-btn wx-btn-ghost wx-btn-full" id="wizard-import-saved">💾 Use Saved Leads</button>
+            </div>
+            <input type="file" id="csv-file-input" accept=".csv" style="display:none">
+            <div class="wx-imported-count" id="wizard-lead-count" style="display:none">
+              <span id="wizard-leads-num">0</span> leads ready
+            </div>
+            <button class="wx-btn wx-btn-primary wx-btn-full" id="wizard-launch" style="margin-top:12px">🚀 Launch Campaign</button>
+            <button class="wx-btn wx-btn-ghost wx-btn-full" id="wizard-back-3">← Back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Pipeline Tab ─── -->
+      <div class="wx-panel" id="panel-pipeline">
+        <div class="wx-panel-header">
+          <h2 class="wx-panel-title">CRM Pipeline</h2>
+        </div>
+        <div class="wx-pipeline" id="pipeline-container">
+          <div class="wx-empty-state">Loading pipeline...</div>
+        </div>
+      </div>
+
+      <!-- ─── Contacts Tab ─── -->
+      <div class="wx-panel" id="panel-contacts">
+        <div class="wx-panel-header">
+          <h2 class="wx-panel-title">Contacts</h2>
+          <button class="wx-btn wx-btn-sm wx-btn-ghost" id="btn-export-csv">📥 Export CSV</button>
+        </div>
+        <div class="wx-search-bar">
+          <input class="wx-input wx-search-input" id="contact-search" placeholder="Search contacts...">
+        </div>
+        <div class="wx-filter-chips" id="contact-filters">
+          <button class="wx-chip wx-chip-active" data-filter="all">All</button>
+          <button class="wx-chip" data-filter="new">New</button>
+          <button class="wx-chip" data-filter="contacted">Contacted</button>
+          <button class="wx-chip" data-filter="connected">Connected</button>
+          <button class="wx-chip" data-filter="replied">Replied</button>
+        </div>
+        <div class="wx-contact-list" id="contact-list">
+          <div class="wx-empty-state">No contacts yet. Visit LinkedIn profiles to save leads.</div>
+        </div>
+      </div>
+
+      <!-- ─── Outreach Tab ─── -->
+      <div class="wx-panel" id="panel-outreach">
+        <div class="wx-panel-header">
+          <h2 class="wx-panel-title">AI Outreach</h2>
+        </div>
+
+        <!-- Template Selector -->
+        <div class="wx-section">
+          <div class="wx-section-title">🎯 Message Type</div>
+          <div class="wx-outreach-type-grid">
+            <button class="wx-ot-btn wx-ot-active" data-type="linkedin_message" id="ot-linkedin">💬 LinkedIn</button>
+            <button class="wx-ot-btn" data-type="connection_note" id="ot-connection">🔗 Connect Note</button>
+          </div>
+        </div>
+
+        <!-- Tone Selector -->
+        <div class="wx-section">
+          <div class="wx-section-title">🎭 Tone</div>
+          <div class="wx-tone-grid">
+            <button class="wx-tone-btn wx-tone-active" data-tone="professional">Professional</button>
+            <button class="wx-tone-btn" data-tone="casual">Casual</button>
+            <button class="wx-tone-btn" data-tone="enthusiastic">Enthusiastic</button>
+            <button class="wx-tone-btn" data-tone="concise">Concise</button>
+          </div>
+        </div>
+
+        <!-- AI Controls -->
+        <div class="wx-section">
+          <label class="wx-label">Custom Instructions (optional)</label>
+          <textarea class="wx-textarea" id="outreach-custom" rows="2" placeholder="e.g., Mention our mutual connection..."></textarea>
+          <button class="wx-btn wx-btn-primary wx-btn-full" id="btn-generate-msg" style="margin-top:10px">✨ Generate with AI</button>
+        </div>
+
+        <!-- Generated Message -->
+        <div class="wx-section" id="outreach-result" style="display:none">
+          <div class="wx-section-title">📝 Generated Message</div>
+          <div class="wx-msg-preview" id="msg-preview" contenteditable="true"></div>
+          <div class="wx-msg-actions">
+            <button class="wx-btn wx-btn-sm wx-btn-primary" id="btn-copy-msg">📋 Copy</button>
+            <button class="wx-btn wx-btn-sm wx-btn-ghost" id="btn-regenerate">🔄 Regenerate</button>
+            <button class="wx-btn wx-btn-sm wx-btn-ghost" id="btn-save-template">💾 Save Template</button>
+          </div>
+          <div class="wx-msg-meta" id="msg-meta"></div>
+        </div>
+      </div>
+
+      <!-- ─── Email Tab ─── -->
+      <div class="wx-panel" id="panel-email">
+        <div class="wx-panel-header">
+          <h2 class="wx-panel-title">Email Composer</h2>
+        </div>
+
+        <!-- Recipient -->
+        <div class="wx-section">
+          <div class="wx-section-title">📬 Recipient</div>
+          <div class="wx-email-recipient" id="email-recipient-card" style="display:none">
+            <div class="wx-er-name" id="er-name"></div>
+            <div class="wx-er-detail" id="er-detail"></div>
+          </div>
+          <div class="wx-email-to-group">
+            <input class="wx-input" id="email-to" placeholder="recipient@email.com">
+            <select class="wx-select" id="email-type-select">
+              <option value="">Select discovered email...</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Template Selection -->
+        <div class="wx-section">
+          <div class="wx-section-title">📄 Template</div>
+          <div class="wx-template-categories" id="email-template-categories"></div>
+          <div class="wx-template-list" id="email-template-list"></div>
+        </div>
+
+        <!-- Tone -->
+        <div class="wx-section">
+          <div class="wx-section-title">🎭 Tone</div>
+          <div class="wx-tone-grid">
+            <button class="wx-tone-btn wx-tone-active wx-email-tone" data-tone="professional">Professional</button>
+            <button class="wx-tone-btn wx-email-tone" data-tone="casual">Casual</button>
+            <button class="wx-tone-btn wx-email-tone" data-tone="enthusiastic">Enthusiastic</button>
+            <button class="wx-tone-btn wx-email-tone" data-tone="confident">Confident</button>
+          </div>
+        </div>
+
+        <!-- Generate -->
+        <div class="wx-section">
+          <label class="wx-label">Custom Instructions</label>
+          <textarea class="wx-textarea" id="email-custom-prompt" rows="2" placeholder="e.g., Emphasize my 5 years of Python experience..."></textarea>
+          <button class="wx-btn wx-btn-primary wx-btn-full" id="btn-generate-email" style="margin-top:10px">✨ Generate Email with AI</button>
+        </div>
+
+        <!-- Email Preview -->
+        <div class="wx-section" id="email-preview-section" style="display:none">
+          <div class="wx-section-title">✉️ Email Draft</div>
+          <div class="wx-email-preview">
+            <div class="wx-ep-field">
+              <label>Subject:</label>
+              <input class="wx-input wx-ep-subject" id="email-subject">
+            </div>
+            <div class="wx-ep-body" id="email-body" contenteditable="true"></div>
+          </div>
+          <div class="wx-email-send-options">
+            <div class="wx-section-title" style="margin-top:12px">📤 Send via</div>
+            <div class="wx-send-grid">
+              <button class="wx-send-btn" data-service="gmail">
+                <span>📧</span><span>Gmail</span>
+              </button>
+              <button class="wx-send-btn" data-service="outlook">
+                <span>📬</span><span>Outlook</span>
+              </button>
+              <button class="wx-send-btn" data-service="outlook365">
+                <span>💼</span><span>O365</span>
+              </button>
+              <button class="wx-send-btn" data-service="mailto">
+                <span>✉️</span><span>Default</span>
+              </button>
+            </div>
+            <div class="wx-email-actions" style="margin-top:8px">
+              <button class="wx-btn wx-btn-sm wx-btn-ghost" id="btn-copy-email">📋 Copy Draft</button>
+              <button class="wx-btn wx-btn-sm wx-btn-ghost" id="btn-regenerate-email">🔄 Regenerate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SETTINGS OVERLAY ═══ -->
+    <div class="wx-settings-overlay" id="settings-overlay" style="display:none">
+      <div class="wx-settings-panel">
+        <div class="wx-settings-header">
+          <h3>⚙️ Settings</h3>
+          <button class="wx-btn wx-btn-xs wx-btn-ghost" id="btn-close-settings">✕</button>
+        </div>
+        <div class="wx-settings-body">
+          <!-- Profile -->
+          <div class="wx-settings-section">
+            <div class="wx-settings-title">👤 Your Profile</div>
+            <div class="wx-form-group">
+              <label class="wx-label">Name</label>
+              <input class="wx-input" id="set-name" placeholder="Your name">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Title</label>
+              <input class="wx-input" id="set-title" placeholder="Your job title">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Company</label>
+              <input class="wx-input" id="set-company" placeholder="Your company">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Email</label>
+              <input class="wx-input" id="set-email" type="email" placeholder="your@email.com">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Phone</label>
+              <input class="wx-input" id="set-phone" placeholder="+1 234 567 8900">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">LinkedIn URL</label>
+              <input class="wx-input" id="set-linkedin" placeholder="https://linkedin.com/in/...">
+            </div>
+          </div>
+
+          <!-- AI -->
+          <div class="wx-settings-section">
+            <div class="wx-settings-title">🤖 AI Settings</div>
+            <div class="wx-form-group">
+              <label class="wx-label">OpenAI API Key</label>
+              <input class="wx-input" id="set-api-key" type="password" placeholder="sk-...">
+              <span class="wx-hint">Optional. AI features work without a key using smart templates.</span>
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">AI Model</label>
+              <select class="wx-select" id="set-model">
+                <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
+                <option value="gpt-4o">GPT-4o (Best)</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+              </select>
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Default Tone</label>
+              <select class="wx-select" id="set-tone">
+                <option value="professional">Professional</option>
+                <option value="casual">Casual</option>
+                <option value="enthusiastic">Enthusiastic</option>
+                <option value="concise">Concise</option>
+                <option value="confident">Confident</option>
+              </select>
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Default Email Service</label>
+              <select class="wx-select" id="set-email-service">
+                <option value="gmail">Gmail</option>
+                <option value="outlook">Outlook</option>
+                <option value="outlook365">Outlook 365 (Work)</option>
+                <option value="yahoo">Yahoo Mail</option>
+                <option value="mailto">Default Email Client</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Automation Limits -->
+          <div class="wx-settings-section">
+            <div class="wx-settings-title">⚡ Automation Limits (Safety)</div>
+            <span class="wx-hint">These are safety measures, not restrictions. Adjust to your needs.</span>
+            <div class="wx-form-group">
+              <label class="wx-label">Daily Connections: <span id="lbl-connections">80</span></label>
+              <input type="range" class="wx-range" id="set-max-connections" min="10" max="200" value="80">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Daily Messages: <span id="lbl-messages">120</span></label>
+              <input type="range" class="wx-range" id="set-max-messages" min="10" max="300" value="120">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Daily Visits: <span id="lbl-visits">150</span></label>
+              <input type="range" class="wx-range" id="set-max-visits" min="10" max="300" value="150">
+            </div>
+            <div class="wx-form-group">
+              <label class="wx-label">Delay between actions (seconds): <span id="lbl-delay">3-8</span></label>
+              <div class="wx-range-pair">
+                <input type="range" class="wx-range" id="set-delay-min" min="1" max="15" value="3">
+                <input type="range" class="wx-range" id="set-delay-max" min="3" max="30" value="8">
+              </div>
+            </div>
+          </div>
+
+          <button class="wx-btn wx-btn-primary wx-btn-full" id="btn-save-settings" style="margin-top:16px">💾 Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="sidebar.js"></script>
+</body>
+</html>

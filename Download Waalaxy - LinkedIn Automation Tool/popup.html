@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waalaxy</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wx-popup">
+    <div class="wx-pop-header">
+      <span class="wx-pop-logo">🚀</span>
+      <span class="wx-pop-brand">Waalaxy</span>
+      <span class="wx-pop-version">v3.0</span>
+    </div>
+
+    <div class="wx-pop-stats">
+      <div class="wx-pop-stat">
+        <div class="wx-pop-stat-val" id="pop-leads">0</div>
+        <div class="wx-pop-stat-lbl">Leads</div>
+      </div>
+      <div class="wx-pop-stat">
+        <div class="wx-pop-stat-val" id="pop-campaigns">0</div>
+        <div class="wx-pop-stat-lbl">Campaigns</div>
+      </div>
+      <div class="wx-pop-stat">
+        <div class="wx-pop-stat-val" id="pop-sent">0</div>
+        <div class="wx-pop-stat-lbl">Sent</div>
+      </div>
+      <div class="wx-pop-stat">
+        <div class="wx-pop-stat-val" id="pop-rate">0%</div>
+        <div class="wx-pop-stat-lbl">Rate</div>
+      </div>
+    </div>
+
+    <div class="wx-pop-auto">
+      <div class="wx-pop-auto-left">
+        <span class="wx-pop-auto-dot" id="pop-auto-dot"></span>
+        <span class="wx-pop-auto-text" id="pop-auto-text">Idle</span>
+      </div>
+      <span class="wx-pop-auto-queue" id="pop-auto-queue">Queue: 0</span>
+    </div>
+
+    <div class="wx-pop-daily">
+      <div class="wx-pop-daily-title">Today</div>
+      <div class="wx-pop-daily-grid">
+        <span>🤝 <b id="pop-cnt-conn">0</b></span>
+        <span>💬 <b id="pop-cnt-msg">0</b></span>
+        <span>👁 <b id="pop-cnt-vis">0</b></span>
+        <span>📧 <b id="pop-cnt-email">0</b></span>
+      </div>
+    </div>
+
+    <div class="wx-pop-actions">
+      <button class="wx-pop-btn wx-pop-btn-primary" id="pop-btn-save">💾 Quick Save Lead</button>
+      <button class="wx-pop-btn wx-pop-btn-sidebar" id="pop-btn-sidebar">🚀 Open Sidebar</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
